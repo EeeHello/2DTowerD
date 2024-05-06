@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.XPath;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -21,7 +20,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(target.position, transform.position) >= 0.1f)
+        if (Vector2.Distance(target.position, transform.position) <= 0.1f)
         {
             pathIndex++;
 
@@ -30,6 +29,22 @@ public class EnemyMovement : MonoBehaviour
                 Destroy(gameObject);
                 return;
             }
+            else
+            {
+                target = LevelManager.Main.path[pathIndex];
+            }
         }
     }
+
+    private void FixedUpdate()
+    {
+        Vector2 direction = (target.position - transform.position).normalized;
+
+        rb.velocity = direction * moveSpeed;
+    }
+
+
+
+
+
 }
